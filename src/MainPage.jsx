@@ -2,17 +2,27 @@ import React from "react";
 
 const MainPage = () => {
 	const sendPush = async () => {
-		const perm = await Notification.requestPermission();
-		if (perm !== "granted") {
-			return;
+		try {
+			const perm = await Notification.requestPermission();
+			console.log("Permission:", perm);
+
+			if (perm !== "granted") {
+				alert("Уведомления не разрешены пользователем");
+				return;
+			}
+
+			new Notification("Hi everyone", {
+				body: "test test",
+			});
+		} catch (error) {
+			console.error("Ошибка при запросе разрешения на уведомления:", error);
+			alert("Ошибка при запросе разрешения на уведомления");
 		}
-		new Notification("Hi everyone", {
-			body: "test test",
-		});
 	};
+
 	return (
 		<div>
-			<button onClick={sendPush}>sendPush</button>
+			<button onClick={sendPush}>Отправить уведомление</button>
 		</div>
 	);
 };
