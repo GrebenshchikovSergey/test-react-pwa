@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: client_frontend
+    ports:
+      - "5100:3000"
+    volumes:
+      - .:/app
+    command: sh -c "npm install && npm run build && npm run startProd"
+    stdin_open: true
+    tty: true
