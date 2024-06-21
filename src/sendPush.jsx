@@ -57,6 +57,16 @@ const SendPush = () => {
 	}, []);
 
 	useEffect(() => {
+		if ("serviceWorker" in navigator) {
+			navigator.serviceWorker
+				.register("/firebase-messaging-sw.js")
+				.then(function (registration) {
+					console.log("Service Worker registered with scope:", registration.scope);
+				})
+				.catch(function (err) {
+					console.error("Service Worker registration failed:", err);
+				});
+		}
 		console.log("servce-worker use effect");
 		navigator.serviceWorker.addEventListener("message", (event) => {
 			console.log("Received message from service worker: ", event.data);
