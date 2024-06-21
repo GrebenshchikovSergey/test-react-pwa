@@ -57,6 +57,7 @@ const SendPush = () => {
 	}, []);
 
 	useEffect(() => {
+		console.log("servce-worker use effect");
 		navigator.serviceWorker.addEventListener("message", (event) => {
 			console.log("Received message from service worker: ", event.data);
 
