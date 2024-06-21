@@ -56,6 +56,10 @@ const SendPush = () => {
 		requestPermission();
 	}, []);
 
+	const copyToClipBoard = () => {
+		navigator.clipboard.writeText(token);
+	};
+	
 	useEffect(() => {
 		if ("serviceWorker" in navigator) {
 			navigator.serviceWorker
@@ -82,7 +86,9 @@ const SendPush = () => {
 
 	return (
 		<div>
-			<div>Device Token: {token}</div>
+			<div>
+				Device Token:<div onClick={copyToClipBoard}> {token}</div>
+			</div>
 			<div>Payload Message: {JSON.stringify(payloadMessage)}</div>
 		</div>
 	);
