@@ -25,20 +25,28 @@ messaging.onBackgroundMessage(function (payload) {
 		body: payload.notification.body,
 	};
 
-	const notificationData = payload.notification.body;
-
 	self.registration.showNotification(notificationTitle, notificationOptions);
-
-	self.clients.matchAll().then((clients) => {
-		console.log(clients);
-		clients.forEach((client) => {
-			client.postMessage(notificationData);
-		});
-	});
 });
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click Received.");
 
 	event.notification.close();
+	event.waitUntil(
+		clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+			if (clientList.length > 0) {
+				let client = clientList[0];
+				for (let i = 0; i < clientList.length; i++) {
+					if (clientList[i].focused) {
+						client = clientList[i];
+					}
+				}
+				client.postMessage({ msg: "notificationClick", data: payload });
+				return client.focus();
+			}
+			return clients.openWindow(window.location.href).then((windowClient) => {
+				windowClient.postMessage({ msg: "notificationClick", data: payload });
+			});
+		})
+	);
 	event.waitUntil(clients.openWindow("/"));
 });
