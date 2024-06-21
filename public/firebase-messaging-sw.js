@@ -30,7 +30,7 @@ messaging.onBackgroundMessage(function (payload) {
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click Received.");
 	console.log("self.clients", clients.matchAll({ type: "window", includeUncontrolled: true }));
-	self.clients.matchAll().then((clients) => {
+	clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
 		console.log("clients", clients);
 		clients.forEach((client) => {
 			client.postMessage({ msg: "Hello from SW" });
