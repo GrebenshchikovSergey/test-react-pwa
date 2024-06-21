@@ -1,8 +1,7 @@
-// Scripts for firebase and firebase messaging
+// Service Worker (firebase-messaging-sw.js)
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
 
-// Initialize the Firebase app in the service worker by passing the generated config
 const firebaseConfig = {
 	apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
 	authDomain: "ksk-softorium-brand.firebaseapp.com",
@@ -14,7 +13,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-// Retrieve firebase messaging
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
@@ -27,12 +25,11 @@ messaging.onBackgroundMessage(function (payload) {
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
+
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click Received.");
 
 	event.notification.close();
 
-	event.waitUntil(
-		clients.openWindow("https://master--stunning-scone-c2b8d7.netlify.app/") 
-	);
+	event.waitUntil(clients.openWindow("https://master--stunning-scone-c2b8d7.netlify.app/"));
 });

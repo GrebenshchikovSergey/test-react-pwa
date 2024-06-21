@@ -1,9 +1,11 @@
+// React Component (SendPush.js)
 import React, { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const SendPush = () => {
 	const [token, setToken] = useState(null);
+	const [payloadMessage, setPayloadMessage] = useState(null);
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
@@ -14,13 +16,10 @@ const SendPush = () => {
 		appId: "1:837625796017:web:3d5f6ce59fdd4f199fd990",
 	};
 
-	// Инициализация Firebase
+	// Initialize Firebase
 	const app = initializeApp(firebaseConfig);
-
-	// Получение экземпляра Messaging
 	const messaging = getMessaging(app);
-	console.log("mess", messaging);
-	// Функция для запроса разрешений на уведомления
+
 	const requestPermission = async () => {
 		try {
 			const permission = await Notification.requestPermission();
@@ -35,12 +34,10 @@ const SendPush = () => {
 		}
 	};
 
-	// Функция для получения токена устройства
 	const getDeviceToken = async (vapidKey) => {
-		console.log("start", vapidKey);
 		try {
 			const currentToken = await getToken(messaging, {
-				vapidKey: vapidKey, // Публичный ключ VAPID
+				vapidKey: vapidKey,
 			});
 			if (currentToken) {
 				console.log("Device token:", currentToken);
@@ -53,12 +50,29 @@ const SendPush = () => {
 		}
 	};
 
-	// Запрос разрешений при монтировании компонента
+	onMessage(messaging, (payload) => {
+		console.log("Received foreground message ", payload);
+		setPayloadMessage(payload);
+	});
+
 	useEffect(() => {
 		requestPermission();
+
+		// Listen for messages from the service worker
+		navigator.serviceWorker.addEventListener("message", (event) => {
+			if (event.data && event.data.msg === "backgroundMessage") {
+				console.log("Received background message in React ", event.data.data);
+				setPayloadMessage(event.data.data);
+			}
+		});
 	}, []);
 
-	return <>{token}</>;
+	return (
+		<div>
+			<div>Device Token: {token}</div>
+			<div>Payload Message: {JSON.stringify(payloadMessage)}</div>
+		</div>
+	);
 };
 
 export default SendPush;
