@@ -25,7 +25,7 @@ const SendPush = () => {
 			const permission = await Notification.requestPermission();
 			if (permission === "granted") {
 				console.log("Notification permission granted.");
-				await getDeviceToken(messaging.vapidKey);
+				await getDeviceToken();
 			} else {
 				console.error("Unable to get permission to notify.");
 			}
@@ -34,11 +34,9 @@ const SendPush = () => {
 		}
 	};
 
-	const getDeviceToken = async (vapidKey) => {
+	const getDeviceToken = async () => {
 		try {
-			const currentToken = await getToken(messaging, {
-				vapidKey: vapidKey,
-			});
+			const currentToken = await getToken(messaging);
 			if (currentToken) {
 				console.log("Device token:", currentToken);
 				setToken(currentToken);
@@ -60,8 +58,8 @@ const SendPush = () => {
 
 		// Listen for messages from the service worker
 		navigator.serviceWorker.addEventListener("message", (event) => {
-			if (event.data && event.data.msg === "backgroundMessage") {
-				console.log("Received background message in React ", event.data.data);
+			if (event.data && event.data.msg === "notificationClick") {
+				console.log("Received notification click message in React ", event.data.data);
 				setPayloadMessage(event.data.data);
 			}
 		});
