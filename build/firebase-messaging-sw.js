@@ -45,9 +45,11 @@ self.addEventListener("notificationclick", function (event) {
 				client.postMessage({ msg: "notificationClick", data: payload });
 				return client.focus();
 			}
-			return clients.openWindow(window.location.href).then((windowClient) => {
-				windowClient.postMessage({ msg: "notificationClick", data: payload });
-			});
+			return clients
+				.openWindow("https://master--stunning-scone-c2b8d7.netlify.app/")
+				.then((windowClient) => {
+					windowClient.postMessage({ msg: "notificationClick", data: payload });
+				});
 		})
 	);
 });
