@@ -30,7 +30,6 @@ messaging.onBackgroundMessage(function (payload) {
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click received.");
 	const payload = event.notification.data;
-
 	event.notification.close();
 
 	event.waitUntil(
@@ -46,7 +45,7 @@ self.addEventListener("notificationclick", function (event) {
 				return client.focus();
 			}
 			return clients
-				.openWindow("https://master--stunning-scone-c2b8d7.netlify.app/")
+				.openWindow("https://master--stunning-scone-c2b8d7.netlify.app")
 				.then((windowClient) => {
 					windowClient.postMessage({ msg: "notificationClick", data: payload });
 				});
