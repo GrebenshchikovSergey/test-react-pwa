@@ -54,6 +54,7 @@ const SendPush = () => {
 
 	useEffect(() => {
 		requestPermission();
+		console.log("service-worker", navigator.serviceWorker);
 		navigator.serviceWorker.addEventListener("message", (event) => {
 			console.log("EVENT: ", event);
 			if (event.data && event.data.msg === "notificationClick") {

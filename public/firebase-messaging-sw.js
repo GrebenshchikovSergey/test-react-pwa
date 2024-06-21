@@ -27,10 +27,22 @@ messaging.onBackgroundMessage(function (payload) {
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
-self.addEventListener("notificationclick", function (event) {
-	console.log("Notification click Received.");
+self.addEventListener("notificationclick", (event) => {
+  console.log("On notification click: ", event.notification.tag);
+  event.notification.close();
 
-	event.notification.close();
-
-	event.waitUntil(clients.openWindow("/"));
+ 
+  event.waitUntil(
+    clients
+      .matchAll({
+        type: "window",
+      })
+      .then((clientList) => {
+        for (const client of clientList) {
+          if (client.url === "/" && "focus" in client) return client.focus();
+        }
+        if (clients.openWindow) return clients.openWindow("/");
+      }),
+  );
 });
+
