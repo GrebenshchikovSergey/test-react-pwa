@@ -31,7 +31,10 @@ self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click Received.");
 	console.log("self.clients", clients.matchAll({ type: "window", includeUncontrolled: true }));
 	self.clients.matchAll().then((clients) => {
-		clients.forEach((client) => client.postMessage({ msg: "Hello from SW" }));
+		console.log("clients", clients);
+		clients.forEach((client) => {
+			client.postMessage({ msg: "Hello from SW" });
+		});
 	});
 	// event.waitUntil(
 	// 	clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
