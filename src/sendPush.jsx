@@ -54,6 +54,13 @@ const SendPush = () => {
 
 	useEffect(() => {
 		requestPermission();
+		navigator.serviceWorker.addEventListener("message", (event) => {
+			console.log("EVENT: ", event);
+			if (event.data && event.data.msg === "notificationClick") {
+				console.log("Received notification click message in React ", event.data.data);
+				setPayloadMessage(event.data.data);
+			}
+		});
 	}, []);
 
 	return (
