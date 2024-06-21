@@ -5,7 +5,7 @@ const firebaseConfig = {
 	apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
 	authDomain: "ksk-softorium-brand.firebaseapp.com",
 	projectId: "ksk-softorium-brand",
-	storageBucket: "ksk-softorium-brand.appspot.com",
+	storageBucket: "ksk-softorium-brand",
 	messagingSenderId: "837625796017",
 	appId: "1:837625796017:web:3d5f6ce59fdd4f199fd990",
 };
@@ -20,14 +20,14 @@ messaging.onBackgroundMessage(function (payload) {
 	const notificationTitle = payload.notification.title;
 	const notificationOptions = {
 		body: payload.notification.body,
-		data: payload.data, // сохраняем данные payload
+		data: payload.data, // добавляем данные payload
 	};
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 self.addEventListener("notificationclick", function (event) {
-	console.log("Notification click received.");
+	console.log("Notification click received.", event.notification.data);
 	const payload = event.notification.data;
 
 	event.notification.close();
@@ -44,11 +44,9 @@ self.addEventListener("notificationclick", function (event) {
 				client.postMessage({ msg: "notificationClick", data: payload });
 				return client.focus();
 			}
-			return clients
-				.openWindow("https://master--stunning-scone-c2b8d7.netlify.app")
-				.then((windowClient) => {
-					windowClient.postMessage({ msg: "notificationClick", data: payload });
-				});
+			return clients.openWindow("/").then((windowClient) => {
+				windowClient.postMessage({ msg: "notificationClick", data: payload });
+			});
 		})
 	);
 });
