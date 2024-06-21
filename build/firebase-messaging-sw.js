@@ -41,11 +41,11 @@ self.addEventListener("notificationclick", function (event) {
 						client = clientList[i];
 					}
 				}
-				client.postMessage({ msg: "notificationClick", data: payload });
+				client.postMessage({ msg: "notificationClick", data: "KYKYKY" });
 				return client.focus();
 			}
 			return clients.openWindow(window.location.href).then((windowClient) => {
-				windowClient.postMessage({ msg: "notificationClick", data: payload });
+				windowClient.postMessage({ msg: "notificationClick", data: "KYKYKY" });
 			});
 		})
 	);
