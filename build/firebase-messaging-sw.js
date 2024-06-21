@@ -28,32 +28,26 @@ messaging.onBackgroundMessage(function (payload) {
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
 self.addEventListener("notificationclick", function (event) {
-	console.log("Notification click Received.");
-	console.log("self.clients", clients.matchAll({ type: "window", includeUncontrolled: true }));
-	clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
-		console.log("clients", clients);
-		clients.forEach((client) => {
-			client.postMessage({ msg: "Hello from SW" });
-		});
-	});
-	// event.waitUntil(
-	// 	clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-	// 		console.log("clientlist: ", clientList);
-	// 		if (clientList.length > 0) {
-	// 			let client = clientList[0];
-	// 			for (let i = 0; i < clientList.length; i++) {
-	// 				if (clientList[i].focused) {
-	// 					client = clientList[i];
-	// 				}
-	// 			}
-	// 			client.postMessage({ msg: "notificationClick", data: "KYKYKY" });
-	// 			return client.focus();
-	// 		}
-	// 		return clients.openWindow("/").then((windowClient) => {
-	// 			windowClient.postMessage({ msg: "notificationClick", data: "KYKYKY" });
-	// 		});
-	// 	})
-	// );
+	event.waitUntil(
+		clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+			console.log("clientlist: ", clientList);
+			if (clientList.length > 0) {
+				let client = clientList[0];
+				for (let i = 0; i < clientList.length; i++) {
+					if (clientList[i].focused) {
+						client = clientList[i];
+					}
+				}
+				client.postMessage({ msg: "notificationClick", data: "KYKYKY" });
+				console.log("if");
+				return client.focus();
+			}
+			console.log("else");
+			return clients.openWindow("/").then((windowClient) => {
+				windowClient.postMessage({ msg: "notificationClick", data: "KYKYKY" });
+			});
+		})
+	);
 	event.notification.close();
 
 	event.waitUntil(clients.openWindow("/"));
