@@ -1,4 +1,3 @@
-// Service Worker (firebase-messaging-sw.js)
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
 
@@ -21,7 +20,7 @@ messaging.onBackgroundMessage(function (payload) {
 	const notificationTitle = payload.notification.title;
 	const notificationOptions = {
 		body: payload.notification.body,
-		data: payload.data, // include the data payload
+		data: payload.data, // сохраняем данные payload
 	};
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
@@ -30,6 +29,7 @@ messaging.onBackgroundMessage(function (payload) {
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click received.");
 	const payload = event.notification.data;
+
 	event.notification.close();
 
 	event.waitUntil(
