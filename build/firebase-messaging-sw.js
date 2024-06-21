@@ -25,7 +25,16 @@ messaging.onBackgroundMessage(function (payload) {
 		body: payload.notification.body,
 	};
 
+	const notificationData = payload.notification.body;
+
 	self.registration.showNotification(notificationTitle, notificationOptions);
+
+	self.clients.matchAll().then((clients) => {
+		console.log(clients);
+		clients.forEach((client) => {
+			client.postMessage(notificationData);
+		});
+	});
 });
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click Received.");
