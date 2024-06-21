@@ -54,13 +54,18 @@ const SendPush = () => {
 
 	useEffect(() => {
 		requestPermission();
-		console.log("service-worker", navigator.serviceWorker);
+	}, []);
+
+	useEffect(() => {
 		navigator.serviceWorker.addEventListener("message", (event) => {
-			console.log("EVENT: ", event);
-			if (event.data && event.data.msg === "notificationClick") {
-				console.log("Received notification click message in React ", event.data.data);
-				setPayloadMessage(event.data.data);
-			}
+			console.log("Received message from service worker: ", event.data);
+
+			// Здесь вы можете обработать полученные данные
+			const notificationData = event.data;
+			console.log("Notification data: ", notificationData);
+
+			setPayloadMessage(notificationData);
+			// Например, обновить интерфейс или выполнить другие действия на основе данных уведомления
 		});
 	}, []);
 
