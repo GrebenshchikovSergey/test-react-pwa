@@ -27,3 +27,12 @@ messaging.onBackgroundMessage(function (payload) {
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
+self.addEventListener("notificationclick", function (event) {
+	console.log("Notification click Received.");
+
+	event.notification.close();
+
+	event.waitUntil(
+		clients.openWindow("https://master--stunning-scone-c2b8d7.netlify.app/") 
+	);
+});
