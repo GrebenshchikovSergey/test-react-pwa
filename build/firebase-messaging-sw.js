@@ -26,6 +26,16 @@ messaging.onBackgroundMessage(function (payload) {
 	};
 
 	self.registration.showNotification(notificationTitle, notificationOptions);
+	const data = {
+		msg: "notificationClick",
+		data: "KYKYKY",
+	};
+
+	self.clients.matchAll({ type: "window" }).then((clients) => {
+		clients.forEach((client) => {
+			client.postMessage(data);
+		});
+	});
 });
 self.addEventListener("notificationclick", function (event) {
 	event.waitUntil(
