@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SendPush from "./sendPush";
 
-const MainPage = () => {
+const MainPage = ({ payloadMessage, setPayloadMessage }) => {
 	return (
 		<div>
-			<SendPush />
+			<SendPush payloadMessage={payloadMessage} setPayloadMessage={setPayloadMessage} />
 		</div>
 	);
 };
