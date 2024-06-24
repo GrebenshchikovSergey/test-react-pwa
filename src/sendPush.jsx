@@ -7,6 +7,7 @@ const SendPush = () => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
 
 	navigator.serviceWorker.addEventListener("message", (event) => {
+		alert(JSON.stringify(event.data));
 		setPayloadMessage(event.data);
 	});
 
