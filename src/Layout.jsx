@@ -7,20 +7,6 @@ import InstallPwaBanner from "./InstallPwaBanner";
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
 
-	let workerInterval = setInterval(() => {
-		if (navigator.serviceWorker) {
-			clearInterval(workerInterval);
-			navigator.serviceWorker.addEventListener("message", (event) => {
-				console.log("DATATAA", JSON.stringify(event.data));
-				setPayloadMessage(event.data);
-			});
-		}
-	}, 500);
-
-	setTimeout(() => {
-		clearInterval(workerInterval);
-	}, 3000);
-
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
 		authDomain: "ksk-softorium-brand.firebaseapp.com",
@@ -79,6 +65,11 @@ const Layout = ({ children }) => {
 	onMessage(messaging, (payload) => {
 		console.log("Received foreground message ", payload);
 		setPayloadMessage(payload);
+	});
+
+	navigator.serviceWorker.addEventListener("message", (event) => {
+		console.log("DATATAA", JSON.stringify(event.data));
+		setPayloadMessage(event.data);
 	});
 
 	return (
