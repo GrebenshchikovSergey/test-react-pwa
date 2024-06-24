@@ -1,4 +1,3 @@
-// Scripts for firebase and firebase messaging
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
 
@@ -23,40 +22,35 @@ messaging.onBackgroundMessage(function (payload) {
 	const notificationTitle = payload.notification.title;
 	const notificationOptions = {
 		body: payload.notification.body,
+		data: payload.data, // Attach any additional data to the notification
 	};
-
+	console.log("SHOW NOTIFICATION", payload);
 	self.registration.showNotification(notificationTitle, notificationOptions);
-	const data = {
-		msg: "notificationClick",
-		data: "KYKYKY",
-	};
-
-	self.clients.matchAll({ type: "window" }).then((clients) => {
-		clients.forEach((client) => {
-			client.postMessage(data);
-		});
-	});
 });
+
 self.addEventListener("notificationclick", function (event) {
-	event.waitUntil(
-		clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-			console.log("clientlist: ", clientList);
-			if (clientList.length > 0) {
-				let client = clientList[0];
-				for (let i = 0; i < clientList.length; i++) {
-					if (clientList[i].focused) {
-						client = clientList[i];
-					}
-				}
-				client.postMessage({ msg: "notificationClick", data: "KYKYKY" });
-				console.log("if");
-				return client.focus();
-			}
-			console.log("else");
-			return clients.postMessage({ msg: "notificationClick", data: "KYKYKY" });
-		})
-	);
+	console.log("Notification click received:", event);
 	event.notification.close();
 
-	event.waitUntil(clients.openWindow("/"));
+	// Extract data from the notification
+	const notificationData = event.notification.data;
+	console.log("Notification data:", notificationData);
+
+	event.waitUntil(
+		clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
+			for (let client of windowClients) {
+				if (client.url === "/" && "focus" in client) {
+					console.log("Sending data to open client:", client);
+					client.postMessage(notificationData); // Send data to the open window
+					return client.focus();
+				}
+			}
+			if (clients.openWindow) {
+				return clients.openWindow(`/`).then((windowClient) => {
+					console.log("Opened new window and sending data:", windowClient);
+					windowClient.postMessage(notificationData);
+				});
+			}
+		})
+	);
 });

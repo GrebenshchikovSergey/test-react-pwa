@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
-const SendPush = () => {
+const SendPush = ({ payloadMessage, setPayloadMessage }) => {
 	const [token, setToken] = useState(null);
-	const [payloadMessage, setPayloadMessage] = useState(null);
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
@@ -56,32 +55,11 @@ const SendPush = () => {
 		requestPermission();
 	}, []);
 
+	
 	const copyToClipBoard = () => {
 		navigator.clipboard.writeText(token);
+		alert("Токен скопирован");
 	};
-
-	useEffect(() => {
-		if ("serviceWorker" in navigator) {
-			navigator.serviceWorker
-				.register("/firebase-messaging-sw.js")
-				.then(function (registration) {
-					console.log("Service Worker registered with scope:", registration.scope);
-				})
-				.catch(function (err) {
-					console.error("Service Worker registration failed:", err);
-				});
-		}
-		navigator.serviceWorker.addEventListener("message", (event) => {
-			console.log("Received message from service worker: ", event.data);
-
-			// Здесь вы можете обработать полученные данные
-			const notificationData = event.data;
-			console.log("Notification data: ", notificationData);
-
-			setPayloadMessage(notificationData);
-			// Например, обновить интерфейс или выполнить другие действия на основе данных уведомления
-		});
-	}, []);
 
 	return (
 		<div>
