@@ -63,15 +63,6 @@ const SendPush = () => {
 		alert("Токен скопирован");
 	};
 
-	setTimeout(() => {
-		console.log("set timeout");
-		navigator.serviceWorker.addEventListener("message", (event) => {
-			console.log("kykyky");
-			alert(JSON.stringify(event.data));
-			setPayloadMessage(event.data);
-		});
-	}, 10000);
-
 	return (
 		<div>
 			<div>

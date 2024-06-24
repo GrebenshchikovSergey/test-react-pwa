@@ -135,3 +135,6 @@ export function unregister() {
 			});
 	}
 }
+navigator.serviceWorker.addEventListener("message", (event) => {
+	console.log("DATATAA", JSON.stringify(event.data));
+});
