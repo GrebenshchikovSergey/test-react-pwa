@@ -41,7 +41,7 @@ self.addEventListener("notificationclick", function (event) {
 			for (let client of windowClients) {
 				if (client.url === "/" && "focus" in client) {
 					console.log("Sending data to open client:", client);
-					client.postMessage(notificationData); // Send data to the open window
+					client.postMessage(notificationData);
 					return client.focus();
 				}
 			}
@@ -49,6 +49,7 @@ self.addEventListener("notificationclick", function (event) {
 				return clients.openWindow(`/`).then((windowClient) => {
 					console.log("Opened new window and sending data:", windowClient);
 					windowClient.postMessage(notificationData);
+					console.log("sended");
 				});
 			}
 		})

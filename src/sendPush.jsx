@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
-const SendPush = ({ payloadMessage, setPayloadMessage }) => {
+const SendPush = () => {
 	const [token, setToken] = useState(null);
+	const [payloadMessage, setPayloadMessage] = useState(null);
+
+	navigator.serviceWorker.addEventListener("message", (event) => {
+		setPayloadMessage(event.data);
+	});
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
@@ -55,7 +60,6 @@ const SendPush = ({ payloadMessage, setPayloadMessage }) => {
 		requestPermission();
 	}, []);
 
-	
 	const copyToClipBoard = () => {
 		navigator.clipboard.writeText(token);
 		alert("Токен скопирован");
