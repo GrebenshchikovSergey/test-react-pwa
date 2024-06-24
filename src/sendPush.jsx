@@ -62,7 +62,7 @@ const SendPush = () => {
 		navigator.clipboard.writeText(token);
 		alert("Токен скопирован");
 	};
-
+	console.log("navigator", navigator.serviceWorker);
 	navigator.serviceWorker.addEventListener("message", (event) => {
 		console.log("kykyky", event);
 		alert(JSON.stringify(event.data));
