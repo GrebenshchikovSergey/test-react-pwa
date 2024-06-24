@@ -28,8 +28,10 @@ const SendPush = () => {
 			const permission = await Notification.requestPermission();
 			if (permission === "granted") {
 				console.log("Notification permission granted.");
+				alert("granted");
 				await getDeviceToken(messaging.vapidKey);
 			} else {
+				alert("not granted");
 				console.error("Unable to get permission to notify.");
 			}
 		} catch (error) {
