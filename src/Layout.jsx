@@ -1,11 +1,25 @@
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import React, { useEffect, useState } from "react";
 import Header from "./Header"; // Подключаем ваш компонент хедера
 import InstallPwaBanner from "./InstallPwaBanner";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { initializeApp } from "firebase/app";
 
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
+
+	let workerInterval = setInterval(() => {
+		if (navigator.serviceWorker) {
+			clearInterval(workerInterval);
+			navigator.serviceWorker.addEventListener("message", (event) => {
+				console.log("DATATAA", JSON.stringify(event.data));
+				setPayloadMessage(event.data);
+			});
+		}
+	}, 500);
+
+	setTimeout(() => {
+		clearInterval(workerInterval);
+	}, 3000);
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
@@ -62,10 +76,6 @@ const Layout = ({ children }) => {
 		alert("Токен скопирован");
 	};
 
-	navigator.serviceWorker.addEventListener("message", (event) => {
-		console.log("DATATAA", JSON.stringify(event.data));
-		setPayloadMessage(event.data);
-	});
 	onMessage(messaging, (payload) => {
 		console.log("Received foreground message ", payload);
 		setPayloadMessage(payload);
@@ -79,6 +89,7 @@ const Layout = ({ children }) => {
 				Device Token:<div onClick={copyToClipBoard}> {token}</div>
 			</div>
 			<InstallPwaBanner />
+			{children}
 		</div>
 	);
 };
