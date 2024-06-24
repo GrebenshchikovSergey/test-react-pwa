@@ -1,8 +1,21 @@
-import { getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import React, { useEffect, useState } from "react";
-import { messaging } from "./index";
+import { initializeApp } from "firebase/app";
 
 const SendPush = () => {
+	const firebaseConfig = {
+		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
+		authDomain: "ksk-softorium-brand.firebaseapp.com",
+		projectId: "ksk-softorium-brand",
+		storageBucket: "ksk-softorium-brand.appspot.com",
+		messagingSenderId: "837625796017",
+		appId: "1:837625796017:web:3d5f6ce59fdd4f199fd990",
+	};
+
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+	const messaging = getMessaging(app);
+
 	const [token, setToken] = useState(null);
 	const [payloadMessage, setPayloadMessage] = useState(null);
 
@@ -10,11 +23,7 @@ const SendPush = () => {
 		try {
 			const permission = await Notification.requestPermission();
 			if (permission === "granted") {
-				console.log("messaging", messaging);
-				console.log("vapidKey", messaging.vapidKey);
-				await getDeviceToken(
-					"BDOU99-h67HcA6JeFXHbSNMu7e2yNNu3RzoMj8TM4W88jITfq7ZmPvIM1Iv-4_l2LxQcYwhqby2xGpWwzjfAnG4"
-				);
+				await getDeviceToken();
 			} else {
 				alert("not granted");
 				console.error("Unable to get permission to notify.");
@@ -26,9 +35,10 @@ const SendPush = () => {
 
 	const getDeviceToken = async (vapidKey) => {
 		try {
-			console.log("start get token", vapidKey);
-
-			const currentToken = await getToken(messaging, { vapidKey });
+			const currentToken = await getToken(messaging, {
+				vapidKey:
+					"BJnOfnt64f9T1hTmNTfuoLm4oqM8zN_MSckjBAHAEvTlqmbQdpjTR9qsxRyGdgW4XYGout8gYJDX1RLvzV6xSVo",
+			});
 			if (currentToken) {
 				console.log("Device token:", currentToken);
 				setToken(currentToken);
