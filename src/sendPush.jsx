@@ -6,11 +6,6 @@ const SendPush = () => {
 	const [token, setToken] = useState(null);
 	const [payloadMessage, setPayloadMessage] = useState(null);
 
-	navigator.serviceWorker.addEventListener("message", (event) => {
-		alert(JSON.stringify(event.data));
-		setPayloadMessage(event.data);
-	});
-
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
 		authDomain: "ksk-softorium-brand.firebaseapp.com",
@@ -67,6 +62,12 @@ const SendPush = () => {
 		navigator.clipboard.writeText(token);
 		alert("Токен скопирован");
 	};
+
+	navigator.serviceWorker.addEventListener("message", (event) => {
+		console.log("kykyky", event);
+		alert(JSON.stringify(event.data));
+		setPayloadMessage(event.data);
+	});
 
 	return (
 		<div>

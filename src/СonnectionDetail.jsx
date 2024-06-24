@@ -7,7 +7,6 @@ const ConnectionDetail = () => {
 	return (
 		<div>
 			<h2>Connection ID: {id}</h2>
-			{/* Другие детали конкретной connection можно добавить здесь */}
 		</div>
 	);
 };
