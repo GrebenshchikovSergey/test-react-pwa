@@ -33,7 +33,7 @@ const SendPush = () => {
 		}
 	};
 
-	const getDeviceToken = async (vapidKey) => {
+	const getDeviceToken = async () => {
 		try {
 			const currentToken = await getToken(messaging, {
 				vapidKey:
@@ -64,6 +64,18 @@ const SendPush = () => {
 		alert("Токен скопирован");
 	};
 
+	navigator.serviceWorker.addEventListener("message", (event) => {
+		console.log("DATATAA", JSON.stringify(event.data));
+		setPayloadMessage(event.data);
+	});
+
+	useEffect(() => {
+		navigator.serviceWorker.addEventListener("message", (event) => {
+			console.log("DATATAA", JSON.stringify(event.data));
+			setPayloadMessage(event.data);
+		});
+	}, []);
+	
 	return (
 		<div>
 			<div>
