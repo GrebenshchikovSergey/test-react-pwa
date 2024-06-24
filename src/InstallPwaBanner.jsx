@@ -5,7 +5,6 @@ const InstallPwaBanner = () => {
 
 	useEffect(() => {
 		const handler = (e) => {
-			console.log("kyky");
 			e.preventDefault();
 			setDeferredPrompt(e);
 		};

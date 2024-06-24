@@ -59,7 +59,7 @@ const SendPush = () => {
 	const copyToClipBoard = () => {
 		navigator.clipboard.writeText(token);
 	};
-	
+
 	useEffect(() => {
 		if ("serviceWorker" in navigator) {
 			navigator.serviceWorker
@@ -71,7 +71,6 @@ const SendPush = () => {
 					console.error("Service Worker registration failed:", err);
 				});
 		}
-		console.log("servce-worker use effect");
 		navigator.serviceWorker.addEventListener("message", (event) => {
 			console.log("Received message from service worker: ", event.data);
 

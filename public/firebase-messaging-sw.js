@@ -53,9 +53,7 @@ self.addEventListener("notificationclick", function (event) {
 				return client.focus();
 			}
 			console.log("else");
-			return clients.openWindow("/").then((windowClient) => {
-				windowClient.postMessage({ msg: "notificationClick", data: "KYKYKY" });
-			});
+			return clients.postMessage({ msg: "notificationClick", data: "KYKYKY" });
 		})
 	);
 	event.notification.close();
