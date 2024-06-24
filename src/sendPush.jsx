@@ -23,7 +23,7 @@ const SendPush = () => {
 		try {
 			const permission = await Notification.requestPermission();
 			if (permission === "granted") {
-				console.log("Notification permission granted.");
+				console.log("Notification permission granted.", messaging.vapidKey);
 				await getDeviceToken(messaging.vapidKey);
 			} else {
 				alert("not granted");
@@ -36,6 +36,8 @@ const SendPush = () => {
 
 	const getDeviceToken = async (vapidKey) => {
 		try {
+			console.log("start get token", vapidKey);
+
 			const currentToken = await getToken(messaging, { vapidKey });
 			if (currentToken) {
 				console.log("Device token:", currentToken);
