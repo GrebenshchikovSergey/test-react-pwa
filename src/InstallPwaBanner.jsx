@@ -3,12 +3,11 @@ import React, { useState, useEffect } from "react";
 const InstallPwaBanner = () => {
 	const [deferredPrompt, setDeferredPrompt] = useState(null);
 
-	useEffect(() => {
-		const handler = (e) => {
-			e.preventDefault();
-			setDeferredPrompt(e);
-		};
+	const handler = (e) => {
+		setDeferredPrompt(e);
+	};
 
+	useEffect(() => {
 		window.addEventListener("beforeinstallprompt", handler);
 
 		return () => {

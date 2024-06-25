@@ -41,7 +41,8 @@ self.addEventListener("activate", function (event) {
 
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click received:", event);
-
+	console.log("window", window);
+	console.log("localStorage", localStorage);
 	// Extract data from the notification
 	const notificationData = event.notification.data;
 	console.log("Notification data:", notificationData);
@@ -56,7 +57,6 @@ self.addEventListener("notificationclick", function (event) {
 
 				if (windows.length > 0) {
 					const window = windows[0];
-					console.log("Posting message to window:", window);
 					window.postMessage(notificationData);
 					window.focus();
 					console.log("Message posted and window focused");
