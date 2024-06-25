@@ -35,6 +35,7 @@ self.addEventListener("notificationclick", function (event) {
 	event.waitUntil(
 		clients.matchAll({ type: "window" }).then((windows) => {
 			if (windows.length > 0) {
+				console.log("windows.length", windows);
 				const window = windows[0];
 				window.postMessage(notificationData);
 				window.focus();
