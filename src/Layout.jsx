@@ -6,7 +6,6 @@ import InstallPwaBanner from "./InstallPwaBanner";
 
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
-	const [bannerUpdate, setBannerUpdate] = useState(false);
 
 	console.log("sample sw", navigator.serviceWorker);
 
@@ -82,7 +81,7 @@ const Layout = ({ children }) => {
 			<div>
 				Device Token:<div onClick={copyToClipBoard}> {token}</div>
 			</div>
-			<InstallPwaBanner setBannerUpdate={setBannerUpdate} />
+			<InstallPwaBanner />
 			{children}
 		</div>
 	);

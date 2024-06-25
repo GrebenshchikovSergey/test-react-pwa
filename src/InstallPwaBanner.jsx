@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const InstallPwaBanner = ({ setBannerUpdate }) => {
+const InstallPwaBanner = () => {
 	const [deferredPrompt, setDeferredPrompt] = useState(null);
 
 	useEffect(() => {
@@ -22,7 +22,6 @@ const InstallPwaBanner = ({ setBannerUpdate }) => {
 
 			deferredPrompt.userChoice.then((choiceResult) => {
 				if (choiceResult.outcome === "accepted") {
-					setBannerUpdate(true);
 					console.log("Пользователь принял установку");
 				} else {
 					console.log("Пользователь отклонил установку");

@@ -56,17 +56,3 @@ self.addEventListener("notificationclick", function (event) {
 	);
 });
 console.log("sw self", self);
-self.oninstall = function (event) {
-	event.waitUntil(self.skipWaiting()); // Activate worker immediately
-};
-
-self.onactivate = function (event) {
-	event.waitUntil(self.clients.claim()); // Become available to all pages
-};
-
-self.onmessage = (event) => {
-	console.log("message event", event);
-	if (event.data && event.data.type === "SKIP_WAITING") {
-		self.skipWaiting();
-	}
-};
