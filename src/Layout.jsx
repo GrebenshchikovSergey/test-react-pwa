@@ -29,12 +29,12 @@ const Layout = ({ children }) => {
 
 	const requestPermission = async () => {
 		try {
-			alert("Подтвердите уведомления");
 			const permission = await Notification.requestPermission();
 			if (permission === "granted") {
 				await getDeviceToken();
 			} else {
 				alert("not granted");
+				requestPermission();
 				console.error("Unable to get permission to notify.");
 			}
 		} catch (error) {
