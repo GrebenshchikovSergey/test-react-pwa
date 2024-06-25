@@ -17,20 +17,16 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
-	console.log("Received background message ", payload);
-
 	const notificationTitle = payload.notification.title;
 	const notificationOptions = {
 		body: payload.notification.body,
 		data: payload.data, // Attach any additional data to the notification
 	};
-	console.log("SHOW NOTIFICATION", payload);
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click received:", event);
-	event.notification.close();
 
 	// Extract data from the notification
 	const notificationData = event.notification.data;
@@ -38,7 +34,9 @@ self.addEventListener("notificationclick", function (event) {
 
 	event.waitUntil(
 		clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
+			console.log("windowClients:", windowClients);
 			for (let client of windowClients) {
+				console.log("client:", client);
 				if (client.url === "/" && "focus" in client) {
 					console.log("Sending data to open client:", client);
 					client.postMessage(notificationData);
@@ -46,7 +44,7 @@ self.addEventListener("notificationclick", function (event) {
 				}
 			}
 			if (clients.openWindow) {
-				console.log("clients.openWindow yes");
+				console.log("Sending data to close");
 				return clients.openWindow(`/`).then((windowClient) => {
 					console.log("Opened new window and sending data:", windowClient);
 					windowClient.postMessage(notificationData);
@@ -55,8 +53,8 @@ self.addEventListener("notificationclick", function (event) {
 			}
 		})
 	);
+	event.notification.close();
 });
-console.log("sw self", self);
 
 self.addEventListener("message", (event) => {
 	if (event.data && event.data.type === "SKIP_WAITING") {

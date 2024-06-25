@@ -7,8 +7,6 @@ import InstallPwaBanner from "./InstallPwaBanner";
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
 
-	console.log("sample sw", navigator.serviceWorker);
-
 	navigator.serviceWorker.onmessage = function (event) {
 		console.log("Received message from service worker:", event.data);
 		setPayloadMessage(event.data);
