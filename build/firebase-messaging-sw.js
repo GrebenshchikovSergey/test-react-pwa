@@ -45,6 +45,8 @@ self.addEventListener("notificationclick", function (event) {
 	const notificationData = event.notification.data;
 	console.log("Notification data:", notificationData);
 
+	event.notification.close();
+
 	event.waitUntil(
 		clients
 			.matchAll()
