@@ -6,10 +6,8 @@ import Integrations from "./Integrations";
 import Layout from "./Layout";
 import MainPage from "./MainPage";
 import "./index.css";
-import * as SW from "./serviceWorkerRegistration";
 import ConnectionDetail from "./СonnectionDetail";
 
-// SW.register();
 if ("serviceWorker" in navigator) {
 	navigator.serviceWorker.register("./firebase-messaging-sw.js").then(
 		(registration) => {

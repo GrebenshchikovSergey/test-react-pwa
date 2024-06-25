@@ -46,6 +46,7 @@ self.addEventListener("notificationclick", function (event) {
 				}
 			}
 			if (clients.openWindow) {
+				console.log("clients.openWindow yes");
 				return clients.openWindow(`/`).then((windowClient) => {
 					console.log("Opened new window and sending data:", windowClient);
 					windowClient.postMessage(notificationData);

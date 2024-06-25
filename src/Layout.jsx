@@ -11,7 +11,6 @@ const Layout = ({ children }) => {
 
 	navigator.serviceWorker.onmessage = function (event) {
 		console.log("Received message from service worker:", event.data);
-		console.log(navigator.serviceWorker.onmessage.toString());
 		setPayloadMessage(event.data);
 	};
 
