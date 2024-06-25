@@ -29,6 +29,7 @@ const Layout = ({ children }) => {
 
 	const requestPermission = async () => {
 		try {
+			alert("Подтвердите уведомления");
 			const permission = await Notification.requestPermission();
 			if (permission === "granted") {
 				await getDeviceToken();
