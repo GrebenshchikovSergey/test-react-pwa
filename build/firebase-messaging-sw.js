@@ -65,7 +65,7 @@ self.addEventListener("notificationclick", function (event) {
 						event.target.registration.scope
 					);
 					return clients
-						.openWindow("/")
+						.openWindow("/connections")
 						.then((window) => {
 							if (window) {
 								console.log("New window opened:", window);
