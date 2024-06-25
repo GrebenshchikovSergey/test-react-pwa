@@ -6,7 +6,12 @@ import InstallPwaBanner from "./InstallPwaBanner";
 
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
-	const [bannedUpdate, setBannerUpdate] = useState(false);
+	const [bannerUpdate, setBannerUpdate] = useState(false);
+
+	navigator.serviceWorker.addEventListener("message", (event) => {
+		console.log("DATATAA", JSON.stringify(event.data));
+		setPayloadMessage(event.data);
+	});
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
@@ -66,16 +71,6 @@ const Layout = ({ children }) => {
 	onMessage(messaging, (payload) => {
 		console.log("Received foreground message ", payload);
 		setPayloadMessage(payload);
-	});
-
-	navigator.serviceWorker.addEventListener("message", (event) => {
-		console.log("DATATAA", JSON.stringify(event.data));
-		event.source.postMessage(event.data);
-		console.log("event.source", event.source);
-		setPayloadMessage(event.data);
-	});
-	navigator.serviceWorker.addEventListener("statechange", (e) => {
-		console.log("e", e);
 	});
 
 	return (
