@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
 			if (permission === "granted") {
 				await getDeviceToken();
 			} else {
-				alert("not granted");
+				alert("Уведомления не разрешены, измените в настройках");
 				requestPermission();
 				console.error("Unable to get permission to notify.");
 			}
