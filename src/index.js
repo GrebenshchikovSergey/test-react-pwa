@@ -12,8 +12,6 @@ import ConnectionDetail from "./СonnectionDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-SW.register({ scope: "./" });
-
 root.render(
 	<BrowserRouter>
 		<Layout>
@@ -26,3 +24,5 @@ root.render(
 		</Layout>
 	</BrowserRouter>
 );
+
+SW.register();
