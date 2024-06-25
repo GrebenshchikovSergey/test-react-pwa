@@ -34,6 +34,7 @@ self.addEventListener("notificationclick", function (event) {
 
 	event.waitUntil(
 		clients.matchAll({ type: "window" }).then((windows) => {
+			console.log("windows", windows);
 			if (windows.length > 0) {
 				console.log("windows.length", windows);
 				const window = windows[0];
