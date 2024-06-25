@@ -47,23 +47,36 @@ self.addEventListener("notificationclick", function (event) {
 	console.log("Notification data:", notificationData);
 
 	event.waitUntil(
-		clients.matchAll().then((windows) => {
-			console.log("windows", windows);
-			if (windows.length > 0) {
-				console.log("windows.length", windows);
-				const window = windows[0];
-				window.postMessage(notificationData);
-				window.focus();
-				return;
-			}
-			return clients.openWindow(this.origin).then((window) => {
-				console.log("window opened");
-				setTimeout(() => {
-					console.log("send message");
+		clients
+			.matchAll()
+			.then((windows) => {
+				console.log("clients.matchAll() called");
+				console.log("windows:", windows);
+				if (windows.length > 0) {
+					console.log("windows.length > 0:", windows);
+					const window = windows[0];
 					window.postMessage(notificationData);
-				}, 3000);
-				return;
-			});
-		})
+					window.focus();
+					console.log("Message posted and window focused");
+					return;
+				}
+				console.log("No open windows found, opening a new window");
+				return clients
+					.openWindow(this.origin)
+					.then((window) => {
+						console.log("New window opened:", window);
+						setTimeout(() => {
+							console.log("Sending message to new window");
+							window.postMessage(notificationData);
+						}, 3000);
+						return;
+					})
+					.catch((error) => {
+						console.error("Error opening window:", error);
+					});
+			})
+			.catch((error) => {
+				console.error("Error matching clients:", error);
+			})
 	);
 });
