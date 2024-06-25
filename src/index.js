@@ -9,9 +9,7 @@ import "./index.css";
 
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import ConnectionDetail from "./СonnectionDetail";
-navigator.serviceWorker.addEventListener("message", (event) => {
-	console.log("DATATAA index", JSON.stringify(event.data));
-});
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -27,4 +25,4 @@ root.render(
 	</BrowserRouter>
 );
 
-serviceWorkerRegistration.unregister();
+// serviceWorkerRegistration.unregister();
