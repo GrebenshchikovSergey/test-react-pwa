@@ -9,10 +9,11 @@ const Layout = ({ children }) => {
 
 	console.log("sample sw", navigator.serviceWorker);
 
-	navigator.serviceWorker.controller.addEventListener("message", function (event) {
+	navigator.serviceWorker.onmessage = function (event) {
 		console.log("Received message from service worker:", event.data);
+		console.log(navigator.serviceWorker.onmessage.toString());
 		setPayloadMessage(event.data);
-	});
+	};
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
