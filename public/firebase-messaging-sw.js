@@ -56,3 +56,21 @@ self.addEventListener("notificationclick", function (event) {
 	);
 });
 console.log("sw self", self);
+
+self.addEventListener("message", (event) => {
+	if (event.data && event.data.type === "SKIP_WAITING") {
+		self.skipWaiting();
+	}
+});
+
+self.addEventListener("install", (event) => {
+	console.log("Installed");
+});
+
+self.addEventListener("activate", (event) => {
+	console.log("Activated");
+});
+
+self.addEventListener("fetch", (event) => {
+	console.log("Fetch request");
+});
