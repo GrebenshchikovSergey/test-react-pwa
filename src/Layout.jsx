@@ -3,7 +3,6 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import React, { useEffect, useState } from "react";
 import Header from "./Header"; // Подключаем ваш компонент хедера
 import InstallPwaBanner from "./InstallPwaBanner";
-import { registerValidSW } from "./serviceWorkerRegistration";
 
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
@@ -11,15 +10,10 @@ const Layout = ({ children }) => {
 
 	console.log("sample sw", navigator.serviceWorker);
 
-
-	navigator.serviceWorker.addEventListener("message", (event) => {
-		if (event.data && event.data.type === "SKIP_WAITING") {
-			console.log("skip waiting");
-			navigator.serviceWorker.skipWaiting();
-		}
-		console.log("DATATAA", JSON.stringify(event.data));
+	navigator.serviceWorker.onmessage = (event) => {
+		console.log("event.data", event.data);
 		setPayloadMessage(event.data);
-	});
+	};
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
