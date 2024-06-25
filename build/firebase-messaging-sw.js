@@ -31,6 +31,7 @@ self.addEventListener("notificationclick", function (event) {
 	// Extract data from the notification
 	const notificationData = event.notification.data;
 	console.log("Notification data:", notificationData);
+	event.notification.close();
 
 	event.waitUntil(
 		clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
@@ -45,15 +46,13 @@ self.addEventListener("notificationclick", function (event) {
 			}
 			if (clients.openWindow) {
 				console.log("Sending data to close");
-				return clients.openWindow(`/`).then((windowClient) => {
-					console.log("Opened new window and sending data:", windowClient);
-					windowClient.postMessage(notificationData);
-					console.log("sended");
-				});
+				clients.openWindow(`/`);
+				console.log("Opened new window and sending data:", windowClient);
+				clients.postMessage(notificationData);
+				console.log("sended");
 			}
 		})
 	);
-	event.notification.close();
 });
 
 self.addEventListener("message", (event) => {
