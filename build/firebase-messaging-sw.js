@@ -25,6 +25,20 @@ messaging.onBackgroundMessage(function (payload) {
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
+self.addEventListener("message", (event) => {
+	if (event.data && event.data.type === "SKIP_WAITING") {
+		self.skipWaiting();
+	}
+});
+
+self.addEventListener("install", function (event) {
+	event.waitUntil(self.skipWaiting()); // Activate worker immediately
+});
+
+self.addEventListener("activate", function (event) {
+	event.waitUntil(self.clients.claim()); // Become available to all pages
+});
+
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click received:", event);
 
@@ -33,7 +47,7 @@ self.addEventListener("notificationclick", function (event) {
 	console.log("Notification data:", notificationData);
 
 	event.waitUntil(
-		clients.matchAll({ type: "window" }).then((windows) => {
+		clients.matchAll().then((windows) => {
 			console.log("windows", windows);
 			if (windows.length > 0) {
 				console.log("windows.length", windows);
@@ -52,18 +66,4 @@ self.addEventListener("notificationclick", function (event) {
 			});
 		})
 	);
-});
-
-self.addEventListener("message", (event) => {
-	if (event.data && event.data.type === "SKIP_WAITING") {
-		self.skipWaiting();
-	}
-});
-
-self.addEventListener("install", function (event) {
-	event.waitUntil(self.skipWaiting()); // Activate worker immediately
-});
-
-self.addEventListener("activate", function (event) {
-	event.waitUntil(self.clients.claim()); // Become available to all pages
 });
