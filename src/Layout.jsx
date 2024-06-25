@@ -46,6 +46,13 @@ const Layout = ({ children }) => {
 			if (currentToken) {
 				console.log("Device token:", currentToken);
 				setToken(currentToken);
+
+				navigator.serviceWorker.addEventListener("message", (event) => {
+					console.log("DATATAA", JSON.stringify(event.data));
+					event.source.postMessage(event.data);
+					console.log("event.source", event.source);
+					setPayloadMessage(event.data);
+				});
 			} else {
 				console.log("No registration token available. Request permission to generate one.");
 			}
