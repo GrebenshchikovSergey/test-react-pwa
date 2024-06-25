@@ -3,10 +3,16 @@ import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import React, { useEffect, useState } from "react";
 import Header from "./Header"; // Подключаем ваш компонент хедера
 import InstallPwaBanner from "./InstallPwaBanner";
+import { registerValidSW } from "./serviceWorkerRegistration";
 
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
 	const [bannerUpdate, setBannerUpdate] = useState(false);
+
+	console.log("sample sw", navigator.serviceWorker);
+	useEffect(() => {
+		registerValidSW("./firebase-messaging-sw.js");
+	}, []);
 
 	navigator.serviceWorker.addEventListener("message", (event) => {
 		console.log("DATATAA", JSON.stringify(event.data));
