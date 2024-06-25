@@ -62,7 +62,7 @@ self.addEventListener("notificationclick", function (event) {
 				}
 				console.log("No open windows found, opening a new window");
 				return clients
-					.openWindow(this.origin)
+					.openWindow(event.target.registration.scope)
 					.then((window) => {
 						console.log("New window opened:", window);
 						setTimeout(() => {
