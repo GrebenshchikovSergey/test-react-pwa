@@ -109,6 +109,7 @@ function checkValidServiceWorker(swUrl, config) {
 				response.status === 404 ||
 				(contentType != null && contentType.indexOf("javascript") === -1)
 			) {
+				console.log("service worker FOUND!!!");
 				// No service worker found. Probably a different app. Reload the page.
 				navigator.serviceWorker.ready.then((registration) => {
 					registration.unregister().then(() => {
@@ -116,6 +117,7 @@ function checkValidServiceWorker(swUrl, config) {
 					});
 				});
 			} else {
+				console.log("service worker FOUND!!!");
 				// Service worker found. Proceed as normal.
 				registerValidSW(swUrl, config);
 			}
