@@ -31,25 +31,23 @@ self.addEventListener("notificationclick", function (event) {
 	// Extract data from the notification
 	const notificationData = event.notification.data;
 	console.log("Notification data:", notificationData);
-	event.notification.close();
 
 	event.waitUntil(
-		clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
-			console.log("windowClients:", windowClients);
-			for (let client of windowClients) {
-				console.log("client:", client);
-				if (client.url === "/" && "focus" in client) {
-					console.log("Sending data to open client:", client);
-					client.postMessage(notificationData);
-					return client.focus();
-				}
+		clients.matchAll({ type: "window" }).then((windows) => {
+			if (windows.length > 0) {
+				const window = windows[0];
+				window.postMessage(notificationData);
+				window.focus();
+				return;
 			}
-			if (clients.openWindow) {
-				console.log("Sending data to close");
-				clients.openWindow(`/`);
-				clients.postMessage(notificationData);
-				console.log("sended");
-			}
+			return clients.openWindow(this.origin).then((window) => {
+				console.log("window opened");
+				setTimeout(() => {
+					console.log("send message");
+					window.postMessage(notificationData);
+				}, 3000);
+				return;
+			});
 		})
 	);
 });
