@@ -15,6 +15,10 @@ const Layout = ({ children }) => {
 	}, []);
 
 	navigator.serviceWorker.addEventListener("message", (event) => {
+		if (event.data && event.data.type === "SKIP_WAITING") {
+			console.log("skip waiting");
+			navigator.serviceWorker.skipWaiting();
+		}
 		console.log("DATATAA", JSON.stringify(event.data));
 		setPayloadMessage(event.data);
 	});
