@@ -63,14 +63,10 @@ self.addEventListener("message", (event) => {
 	}
 });
 
-self.addEventListener("install", (event) => {
-	console.log("Installed");
+self.addEventListener("install", function (event) {
+	event.waitUntil(self.skipWaiting()); // Activate worker immediately
 });
 
-self.addEventListener("activate", (event) => {
-	console.log("Activated");
-});
-
-self.addEventListener("fetch", (event) => {
-	console.log("Fetch request");
+self.addEventListener("activate", function (event) {
+	event.waitUntil(self.clients.claim()); // Become available to all pages
 });

@@ -7,8 +7,21 @@ import Layout from "./Layout";
 import MainPage from "./MainPage";
 import "./index.css";
 import * as SW from "./serviceWorkerRegistration";
-
 import ConnectionDetail from "./СonnectionDetail";
+
+// SW.register();
+if ("serviceWorker" in navigator) {
+	navigator.serviceWorker.register("./firebase-messaging-sw.js").then(
+		(registration) => {
+			console.log("Service worker registration succeeded:", registration);
+		},
+		(error) => {
+			console.error(`Service worker registration failed: ${error}`);
+		}
+	);
+} else {
+	console.error("Service workers are not supported.");
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -24,5 +37,3 @@ root.render(
 		</Layout>
 	</BrowserRouter>
 );
-
-SW.register();
