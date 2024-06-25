@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const InstallPwaBanner = () => {
+const InstallPwaBanner = ({ token }) => {
 	const [deferredPrompt, setDeferredPrompt] = useState(null);
 
 	const handler = (e) => {
@@ -8,12 +8,14 @@ const InstallPwaBanner = () => {
 	};
 
 	useEffect(() => {
+		if (!token) return;
+
 		window.addEventListener("beforeinstallprompt", handler);
 
 		return () => {
 			window.removeEventListener("beforeinstallprompt", handler);
 		};
-	}, []);
+	}, [token]);
 
 	const handleInstallClick = () => {
 		if (deferredPrompt) {

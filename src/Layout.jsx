@@ -80,7 +80,7 @@ const Layout = ({ children }) => {
 			<div>
 				Device Token:<div onClick={copyToClipBoard}> {token}</div>
 			</div>
-			<InstallPwaBanner />
+			<InstallPwaBanner token={token} />
 			{children}
 		</div>
 	);
