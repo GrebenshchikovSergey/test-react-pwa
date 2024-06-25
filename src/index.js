@@ -12,10 +12,7 @@ import ConnectionDetail from "./СonnectionDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-if ("serviceWorker" in navigator) {
-	SW.register("firebase-messaging-sw.js", { scope: "./" });
-	console.log("in reg", navigator.serviceWorker);
-}
+SW.register({ scope: "./" });
 
 root.render(
 	<BrowserRouter>
@@ -29,5 +26,3 @@ root.render(
 		</Layout>
 	</BrowserRouter>
 );
-
-SW.unregister();
