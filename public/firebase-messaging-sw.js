@@ -41,8 +41,6 @@ self.addEventListener("activate", function (event) {
 
 self.addEventListener("notificationclick", function (event) {
 	console.log("Notification click received:", event);
-	console.log("window", window);
-	console.log("localStorage", localStorage);
 	// Extract data from the notification
 	const notificationData = event.notification.data;
 	console.log("Notification data:", notificationData);
