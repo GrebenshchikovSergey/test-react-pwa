@@ -6,6 +6,7 @@ import InstallPwaBanner from "./InstallPwaBanner";
 
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
+	const [bannedUpdate, setBannerUpdate] = useState(false);
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
@@ -69,6 +70,8 @@ const Layout = ({ children }) => {
 
 	navigator.serviceWorker.addEventListener("message", (event) => {
 		console.log("DATATAA", JSON.stringify(event.data));
+		event.source.postMessage(event.data);
+		console.log("event.source", event.source);
 		setPayloadMessage(event.data);
 	});
 
@@ -79,7 +82,7 @@ const Layout = ({ children }) => {
 			<div>
 				Device Token:<div onClick={copyToClipBoard}> {token}</div>
 			</div>
-			<InstallPwaBanner />
+			<InstallPwaBanner setBannerUpdate={setBannerUpdate} />
 			{children}
 		</div>
 	);
