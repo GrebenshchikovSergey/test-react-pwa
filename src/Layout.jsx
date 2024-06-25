@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
 
 	console.log("sample sw", navigator.serviceWorker);
 
-	navigator.serviceWorker.addEventListener("message", function (event) {
+	navigator.serviceWorker.controller.addEventListener("message", function (event) {
 		console.log("Received message from service worker:", event.data);
 		setPayloadMessage(event.data);
 	});
