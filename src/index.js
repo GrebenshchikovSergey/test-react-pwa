@@ -11,6 +11,7 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import ConnectionDetail from "./СonnectionDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+serviceWorkerRegistration.registerValidSW("./firebase-messaging-sw.js");
 
 root.render(
 	<BrowserRouter>

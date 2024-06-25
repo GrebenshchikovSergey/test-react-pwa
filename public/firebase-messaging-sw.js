@@ -63,3 +63,9 @@ self.addEventListener("install", function (event) {
 self.addEventListener("activate", function (event) {
 	event.waitUntil(self.clients.claim()); // Become available to all pages
 });
+
+self.addEventListener("message", (event) => {
+	if (event.data && event.data.type === "SKIP_WAITING") {
+		self.skipWaiting();
+	}
+});

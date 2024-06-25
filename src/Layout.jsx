@@ -10,9 +10,7 @@ const Layout = ({ children }) => {
 	const [bannerUpdate, setBannerUpdate] = useState(false);
 
 	console.log("sample sw", navigator.serviceWorker);
-	useEffect(() => {
-		registerValidSW("./firebase-messaging-sw.js");
-	}, []);
+
 
 	navigator.serviceWorker.addEventListener("message", (event) => {
 		if (event.data && event.data.type === "SKIP_WAITING") {
