@@ -57,12 +57,13 @@ const SendPush = () => {
 		navigator.clipboard.writeText(token);
 		alert("Токен скопирован");
 	};
-	// Запрос разрешений при монтировании компонента
-	useEffect(() => {
-		requestPermission();
-	}, []);
 
-	return <div onClick={copyToClipBoard}>{token}</div>;
+	return (
+		<div>
+			<button onClick={requestPermission}>Запросить разрешения</button>
+			<div onClick={copyToClipBoard}>{token}</div>
+		</div>
+	);
 };
 
 export default SendPush;
