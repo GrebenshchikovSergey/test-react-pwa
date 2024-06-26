@@ -7,10 +7,10 @@ import InstallPwaBanner from "./InstallPwaBanner";
 const Layout = ({ children }) => {
 	const [payloadMessage, setPayloadMessage] = useState(null);
 
-	navigator.serviceWorker.onmessage = function (event) {
-		console.log("Received message from service worker:", event.data);
-		setPayloadMessage(event.data);
-	};
+	// navigator.serviceWorker.onmessage = function (event) {
+	// 	console.log("Received message from service worker:", event.data);
+	// 	setPayloadMessage(event.data);
+	// };
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
