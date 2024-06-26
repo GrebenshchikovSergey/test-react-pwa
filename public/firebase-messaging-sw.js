@@ -25,67 +25,74 @@ messaging.onBackgroundMessage(function (payload) {
 	self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-self.addEventListener("message", (event) => {
-	if (event.data && event.data.type === "SKIP_WAITING") {
-		self.skipWaiting();
-	}
-});
+// self.addEventListener("message", (event) => {
+// 	if (event.data && event.data.type === "SKIP_WAITING") {
+// 		self.skipWaiting();
+// 	}
+// });
 
-self.addEventListener("install", function (event) {
-	event.waitUntil(self.skipWaiting()); // Activate worker immediately
-});
+// self.addEventListener("install", function (event) {
+// 	event.waitUntil(self.skipWaiting()); // Activate worker immediately
+// });
 
-self.addEventListener("activate", function (event) {
-	event.waitUntil(self.clients.claim()); // Become available to all pages
-});
+// self.addEventListener("activate", function (event) {
+// 	event.waitUntil(self.clients.claim()); // Become available to all pages
+// });
 
+// self.addEventListener("notificationclick", function (event) {
+// 	console.log("Notification click received:", event);
+// 	// Extract data from the notification
+// 	const notificationData = event.notification.data;
+// 	console.log("Notification data:", notificationData);
+
+// 	event.notification.close();
+
+// 	event.waitUntil(
+// 		clients
+// 			.matchAll()
+// 			.then((windows) => {
+// 				console.log("clients.matchAll() called");
+// 				console.log("windows array length:", windows.length);
+// 				console.log("windows:", windows);
+
+// 				if (windows.length > 0) {
+// 					const window = windows[0];
+// 					window.postMessage(notificationData);
+// 					window.focus();
+// 					console.log("Message posted and window focused");
+// 					return;
+// 				} else {
+// 					console.log(
+// 						"No open windows found, opening a new window with scope:",
+// 						event.target.registration.scope
+// 					);
+// 					return clients
+// 						.openWindow("/connections/1")
+// 						.then((window) => {
+// 							if (window) {
+// 								console.log("New window opened:", window);
+// 								setTimeout(() => {
+// 									console.log("Sending message to new window");
+// 									window.postMessage(notificationData);
+// 								}, 3000);
+// 							} else {
+// 								console.log("Window not opened");
+// 							}
+// 						})
+// 						.catch((error) => {
+// 							console.error("Error opening window:", error);
+// 						});
+// 				}
+// 			})
+// 			.catch((error) => {
+// 				console.error("Error matching clients:", error);
+// 			})
+// 	);
+// });
 self.addEventListener("notificationclick", function (event) {
-	console.log("Notification click received:", event);
-	// Extract data from the notification
-	const notificationData = event.notification.data;
-	console.log("Notification data:", notificationData);
+	console.log("Notification click Received.");
 
 	event.notification.close();
 
-	event.waitUntil(
-		clients
-			.matchAll()
-			.then((windows) => {
-				console.log("clients.matchAll() called");
-				console.log("windows array length:", windows.length);
-				console.log("windows:", windows);
-
-				if (windows.length > 0) {
-					const window = windows[0];
-					window.postMessage(notificationData);
-					window.focus();
-					console.log("Message posted and window focused");
-					return;
-				} else {
-					console.log(
-						"No open windows found, opening a new window with scope:",
-						event.target.registration.scope
-					);
-					return clients
-						.openWindow("/connections/1")
-						.then((window) => {
-							if (window) {
-								console.log("New window opened:", window);
-								setTimeout(() => {
-									console.log("Sending message to new window");
-									window.postMessage(notificationData);
-								}, 3000);
-							} else {
-								console.log("Window not opened");
-							}
-						})
-						.catch((error) => {
-							console.error("Error opening window:", error);
-						});
-				}
-			})
-			.catch((error) => {
-				console.error("Error matching clients:", error);
-			})
-	);
+	event.waitUntil(clients.openWindow("/connections/1"));
 });
