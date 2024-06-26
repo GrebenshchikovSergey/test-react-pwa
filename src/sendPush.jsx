@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const SendPush = () => {
 	const [token, setToken] = useState(null);
+	const [payloadMessage, setPayloadMessage] = useState(null);
 
 	const firebaseConfig = {
 		apiKey: "AIzaSyAIEo2Tce5G1jAM-9DR4Q8jLsnmXN_pWgQ",
@@ -58,10 +59,16 @@ const SendPush = () => {
 		alert("Токен скопирован");
 	};
 
+	onMessage(messaging, (payload) => {
+		console.log("Message received. ", payload);
+		setPayloadMessage(payload);
+	});
+
 	return (
 		<div>
 			<button onClick={requestPermission}>Запросить разрешения</button>
 			<div onClick={copyToClipBoard}>{token}</div>
+			<div style={{ marginTop: "10px" }}>Payload message: {JSON.stringify(payloadMessage)}</div>
 		</div>
 	);
 };
