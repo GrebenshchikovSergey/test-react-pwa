@@ -28,18 +28,19 @@ const Layout = ({ children }) => {
 	const [token, setToken] = useState(null);
 
 	const requestPermission = async () => {
-		try {
-			const permission = await Notification.requestPermission();
-			if (permission === "granted") {
-				await getDeviceToken();
-			} else {
-				alert("Уведомления не разрешены, измените в настройках");
-				requestPermission();
-				console.error("Unable to get permission to notify.");
-			}
-		} catch (error) {
-			console.error("Unable to get permission to notify.", error);
-		}
+		await getDeviceToken();
+
+		// try {
+		// 	const permission = await Notification.requestPermission();
+		// 	if (permission === "granted") {
+		// 	} else {
+		// 		alert("Уведомления не разрешены, измените в настройках");
+		// 		requestPermission();
+		// 		console.error("Unable to get permission to notify.");
+		// 	}
+		// } catch (error) {
+		// 	console.error("Unable to get permission to notify.", error);
+		// }
 	};
 
 	const getDeviceToken = async () => {
