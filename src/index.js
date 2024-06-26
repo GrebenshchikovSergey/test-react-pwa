@@ -7,7 +7,7 @@ import Layout from "./Layout";
 import MainPage from "./MainPage";
 import "./index.css";
 import ConnectionDetail from "./СonnectionDetail";
-
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 // if ("serviceWorker" in navigator) {
 // 	navigator.serviceWorker.register("./firebase-messaging-sw.js").then(
 // 		(registration) => {
@@ -35,3 +35,5 @@ root.render(
 		</Layout>
 	</BrowserRouter>
 );
+
+serviceWorkerRegistration.register();
