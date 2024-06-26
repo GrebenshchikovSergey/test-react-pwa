@@ -21,7 +21,7 @@ const isLocalhost = Boolean(
 export function register(config) {
 	if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
 		// The URL constructor is available in all browsers that support SW.
-		const publicUrl = new URL("/", window.location.href);
+		const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
 		if (publicUrl.origin !== window.location.origin) {
 			// Our service worker won't work if PUBLIC_URL is on a different origin
 			// from what our page is served on. This might happen if a CDN is used to
@@ -30,7 +30,7 @@ export function register(config) {
 		}
 
 		window.addEventListener("load", () => {
-			const swUrl = `firebase-messaging-sw.js`;
+			const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
 			if (isLocalhost) {
 				// This is running on localhost. Let's check if a service worker still exists or not.
@@ -52,11 +52,10 @@ export function register(config) {
 	}
 }
 
-export function registerValidSW(swUrl, config) {
+function registerValidSW(swUrl, config) {
 	navigator.serviceWorker
 		.register(swUrl)
 		.then((registration) => {
-			console.log("registration successful");
 			registration.onupdatefound = () => {
 				const installingWorker = registration.installing;
 				if (installingWorker == null) {
@@ -109,7 +108,6 @@ function checkValidServiceWorker(swUrl, config) {
 				response.status === 404 ||
 				(contentType != null && contentType.indexOf("javascript") === -1)
 			) {
-				console.log("service worker FOUND!!!");
 				// No service worker found. Probably a different app. Reload the page.
 				navigator.serviceWorker.ready.then((registration) => {
 					registration.unregister().then(() => {
@@ -117,7 +115,6 @@ function checkValidServiceWorker(swUrl, config) {
 					});
 				});
 			} else {
-				console.log("service worker FOUND!!!");
 				// Service worker found. Proceed as normal.
 				registerValidSW(swUrl, config);
 			}
