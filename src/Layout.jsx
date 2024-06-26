@@ -28,22 +28,22 @@ const Layout = ({ children }) => {
 	const [token, setToken] = useState(null);
 	// const [isGranted, setIsGranted] = useState(false);
 
-	const requestPermission = () => {
-		Notification.requestPermission()
-			.then((permission) => {
-				if (permission === "granted") {
-					console.log("granted");
-					alert("уведомления разрешены");
-					// setIsGranted(true);
-					getDeviceToken();
-				} else {
-					// setIsGranted(false);
-					alert("уведомления не разрешены");
-					console.error("Unable to get permission to notify.");
-				}
-			})
-			.catch((e) => console.log(e));
-	};
+	// const requestPermission = () => {
+	// 	Notification.requestPermission()
+	// 		.then((permission) => {
+	// 			if (permission === "granted") {
+	// 				console.log("granted");
+	// 				alert("уведомления разрешены");
+	// 				// setIsGranted(true);
+	// 				getDeviceToken();
+	// 			} else {
+	// 				// setIsGranted(false);
+	// 				alert("уведомления не разрешены");
+	// 				console.error("Unable to get permission to notify.");
+	// 			}
+	// 		})
+	// 		.catch((e) => console.log(e));
+	// };
 
 	const getDeviceToken = async () => {
 		try {
@@ -63,7 +63,7 @@ const Layout = ({ children }) => {
 	};
 
 	useEffect(() => {
-		requestPermission();
+		getDeviceToken();
 	}, []);
 
 	const copyToClipBoard = () => {
