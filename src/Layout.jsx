@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import React, { useEffect, useState } from "react";
-import Header from "./Header"; // Подключаем ваш компонент хедера
+import Header from "./Header";
 import InstallPwaBanner from "./InstallPwaBanner";
 
 const Layout = ({ children }) => {
@@ -30,14 +30,16 @@ const Layout = ({ children }) => {
 
 	const requestPermission = async () => {
 		try {
+			alert("запрос уведомлений");
 			const permission = await Notification.requestPermission();
 			if (permission === "granted") {
 				console.log("granted");
+				alert("уведомления разрешены");
 				setIsGranted(true);
 				await getDeviceToken();
 			} else {
 				setIsGranted(false);
-				console.log("уведомления не разрешены");
+				alert("уведомления не разрешены");
 				console.error("Unable to get permission to notify.");
 			}
 		} catch (error) {
