@@ -26,25 +26,23 @@ const Layout = ({ children }) => {
 	const messaging = getMessaging(app);
 
 	const [token, setToken] = useState(null);
-	const [isGranted, setIsGranted] = useState(false);
+	// const [isGranted, setIsGranted] = useState(false);
 
-	const requestPermission = async () => {
-		try {
-			alert("запрос уведомлений");
-			const permission = await Notification.requestPermission();
-			if (permission === "granted") {
-				console.log("granted");
-				alert("уведомления разрешены");
-				setIsGranted(true);
-				await getDeviceToken();
-			} else {
-				setIsGranted(false);
-				alert("уведомления не разрешены");
-				console.error("Unable to get permission to notify.");
-			}
-		} catch (error) {
-			console.error("Unable to get permission to notify.", error);
-		}
+	const requestPermission = () => {
+		Notification.requestPermission()
+			.then((permission) => {
+				if (permission === "granted") {
+					console.log("granted");
+					alert("уведомления разрешены");
+					// setIsGranted(true);
+					getDeviceToken();
+				} else {
+					// setIsGranted(false);
+					alert("уведомления не разрешены");
+					console.error("Unable to get permission to notify.");
+				}
+			})
+			.catch((e) => console.log(e));
 	};
 
 	const getDeviceToken = async () => {
@@ -81,7 +79,7 @@ const Layout = ({ children }) => {
 	return (
 		<div>
 			<Header />
-			<div>Уведомления : {isGranted ? "Разрешены" : "Запрещены, измените в настройках"}</div>
+			{/* <div>Уведомления : {isGranted ? "Разрешены" : "Запрещены, измените в настройках"}</div> */}
 			<div>Payload message: {JSON.stringify(payloadMessage)}</div>
 			<div>
 				Device Token:<div onClick={copyToClipBoard}> {token}</div>
