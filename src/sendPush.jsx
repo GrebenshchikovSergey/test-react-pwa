@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-
+import { getMessaging, onMessage } from "firebase/messaging";
+import { getInstallations, getId, getToken } from "firebase/installations";
 const SendPush = () => {
 	const [token, setToken] = useState(null);
 	const [payloadMessage, setPayloadMessage] = useState(null);
@@ -35,6 +35,36 @@ const SendPush = () => {
 			console.error("Unable to get permission to notify.", error);
 		}
 	};
+	useEffect(() => {
+		// Получаем экземпляр Installations
+		const installations = getInstallations(app);
+
+		// Получаем FID
+		const fetchFID = async () => {
+			try {
+				const fid = await getId(installations);
+				console.log("Firebase Installation ID (FID):", fid);
+			} catch (error) {
+				console.error("Error getting FID:", error);
+			}
+		};
+
+		// Получаем токен
+		const fetchToken = async () => {
+			try {
+				const token = await getToken(installations, {
+					vapidKey:
+						"BJnOfnt64f9T1hTmNTfuoLm4oqM8zN_MSckjBAHAEvTlqmbQdpjTR9qsxRyGdgW4XYGout8gYJDX1RLvzV6xSVo",
+				});
+				console.log("Firebase Installation Token:", token);
+			} catch (error) {
+				console.error("Error getting Token:", error);
+			}
+		};
+
+		fetchFID();
+		fetchToken();
+	}, [app]);
 
 	// Функция для получения токена устройства
 	const getDeviceToken = async () => {
